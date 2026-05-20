@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>INVEXA | Complete Tasks. Earn Rewards.</title>
+  <!-- Google Fonts for clean typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    /* LIGHT MODE (default) */
+    :root {
+      --bg-body: #ffffff;
+      --text-primary: #111827;
+      --text-secondary: #4b5563;
+      --card-bg: #f9fafb;
+      --card-border: #e5e7eb;
+      --accent: #2563eb;
+      --accent-glow: rgba(37, 99, 235, 0.2);
+      --nav-bg: rgba(255, 255, 255, 0.85);
+      --glass-bg: rgba(255, 255, 255, 0.7);
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      --border-light: #eef2ff;
+      --cyan: #06b6d4;
+    }
+
+    body.dark {
+      --bg-body: #0a0c12;
+      --text-primary: #f1f5f9;
+      --text-secondary: #9ca3af;
+      --card-bg: #11151f;
+      --card-border: #1e293b;
+      --accent: #06b6d4;
+      --accent-glow: rgba(6, 182, 212, 0.2);
+      --nav-bg: rgba(10, 12, 18, 0.9);
+      --glass-bg: rgba(17, 21, 31, 0.7);
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      --border-light: #1e2a3a;
+      --cyan: #22d3ee;
+    }
+
+    body {
+      background: var(--bg-body);
+      color: var(--text-primary);
+    }
+
+    /* Glassmorphism and modern utilities */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card-solid {
+      background: var(--card-bg);
+      border-radius: 1.5rem;
+      border: 1px solid var(--card-border);
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.75rem 1.5rem;
+      border-radius: 2rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-outline:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    .nav-container, .hero, .steps, .footer {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* header / navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 1.8rem;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-x {
+      background: linear-gradient(135deg, var(--cyan), var(--accent));
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: white;
+      transform: rotate(5deg);
+    }
+
+    .theme-toggle {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 2rem;
+      padding: 0.4rem 0.9rem;
+      cursor: pointer;
+    }
+
+    /* hero */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      padding: 4rem 0 5rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--accent-glow);
+      color: var(--accent);
+      border-radius: 2rem;
+      padding: 0.3rem 1rem;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+
+    .dashboard-preview {
+      background: var(--card-bg);
+      border-radius: 1.8rem;
+      padding: 1rem;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+      border: 1px solid var(--card-border);
+    }
+
+    .floating-card {
+      animation: float 4s ease-in-out infinite;
+      background: var(--glass-bg);
+      backdrop-filter: blur(8px);
+      border-radius: 1.2rem;
+      padding: 0.8rem;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .steps-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.8rem;
+      justify-content: center;
+      margin: 3rem 0;
+    }
+
+    .step-card {
+      flex: 1;
+      min-width: 200px;
+      background: var(--card-bg);
+      border-radius: 1.5rem;
+      padding: 1.8rem;
+      text-align: center;
+      border: 1px solid var(--card-border);
+    }
+
+    .step-number {
+      background: var(--accent);
+      width: 42px;
+      height: 42px;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: white;
+    }
+
+    /* registration preview */
+    .reg-preview {
+      background: linear-gradient(145deg, var(--card-bg), var(--bg-body));
+      border-radius: 2rem;
+      padding: 2rem;
+      margin: 3rem 0;
+      border: 1px solid var(--accent);
+    }
+
+    .input-group {
+      margin-bottom: 1rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      background: var(--bg-body);
+      border: 1px solid var(--card-border);
+      border-radius: 1rem;
+      color: var(--text-primary);
+    }
+
+    .status-badge {
+      background: #eab30820;
+      color: #eab308;
+      padding: 0.2rem 0.8rem;
+      border-radius: 2rem;
+    }
+
+    /* footer and support */
+    .support-links {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    hr {
+      border-color: var(--card-border);
+    }
+
+    @media (max-width: 768px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      .nav-container, .hero, .steps, .footer {
+        padding: 0 1.2rem;
+      }
+    }
+
+    .legal-check {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .accent-text {
+      color: var(--accent);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav-container">
+  <div class="navbar">
+    <div class="logo">
+      <div class="logo-x">X</div>
+      <span>INVEXA</span>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <button class="btn-outline" id="loginMockBtn" style="padding: 0.5rem 1.2rem;">Login</button>
+      <button class="btn-primary" id="registerMockBtn" style="padding: 0.5rem 1.2rem;">Register</button>
+      <div class="theme-toggle" id="themeToggleBtn">
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <!-- HERO SECTION -->
+  <div class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">✨ Earn Real Rewards ✨</div>
+        <h1 class="hero-title">Earn Money Online By Completing Daily Tasks</h1>
+        <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem;">
+          Watch videos, invite friends, complete tasks and withdraw directly to your mobile money account.
+        </p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <button class="btn-primary" id="heroRegBtn"><i class="fas fa-user-plus"></i> Register Now</button>
+          <button class="btn-outline" id="learnHowBtn"><i class="fas fa-play-circle"></i> How it works</button>
+        </div>
+      </div>
+      <div class="dashboard-preview">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+          <span><i class="fas fa-chart-line"></i> Balance: UGX 24,500</span>
+          <span class="status-badge">Standard Account</span>
+        </div>
+        <div class="floating-card" style="margin-bottom: 1rem;">
+          <i class="fas fa-video" style="color: var(--accent);"></i> Video Task: Watch & earn UGX 100
+          <div style="height: 6px; background: var(--card-border); border-radius: 4px; margin-top: 6px;"><div style="width:70%; height:6px; background: var(--accent); border-radius: 4px;"></div></div>
+        </div>
+        <div class="floating-card">
+          <i class="fas fa-link"></i> Referral reward: UGX 500 per active friend
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS SECTION (4 steps) -->
+  <div class="hero" id="howItWorks">
+    <h2 style="font-size: 2rem; margin-bottom: 1rem; text-align: center;">How INVEXA works</h2>
+    <div class="steps-container">
+      <div class="step-card"><div class="step-number">1</div><h3>Sign Up</h3><p>Create account using mobile number, username & password.</p></div>
+      <div class="step-card"><div class="step-number">2</div><h3>Activate Account</h3><p>Pay UGX 5,000 via Airtel Merchant 7100430 → pending approval. Admin activates.</p></div>
+      <div class="step-card"><div class="step-number">3</div><h3>Complete Tasks</h3><p>Watch videos, share referral link, earn daily bonuses.</p></div>
+      <div class="step-card"><div class="step-number">4</div><h3>Withdraw Earnings</h3><p>Min UGX 20,000 to registered mobile money.</p></div>
+    </div>
+  </div>
+
+  <!-- REGISTRATION / ACTIVATION PREVIEW (realistic interactive demo) -->
+  <div class="hero">
+    <div class="reg-preview glass-card">
+      <h3><i class="fas fa-user-shield"></i> Start Earning — Registration & Activation</h3>
+      <p style="margin-bottom: 1rem;">Complete the fields below to simulate signup (demo environment). Activation requires admin approval after payment.</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div>
+          <div class="input-group"><input type="text" id="demoUsername" placeholder="Username" value="invexa_user"></div>
+          <div class="input-group"><input type="tel" id="demoMobile" placeholder="Mobile Number (e.g., 078XXXXXXX)" value="0781234567"></div>
+          <div class="input-group"><input type="password" id="demoPass" placeholder="Password" value="pass123"></div>
+          <div class="input-group"><input type="password" id="demoConfirm" placeholder="Confirm Password" value="pass123"></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="input-group"><button id="simulateSignupBtn" class="btn-primary" style="width: 100%;">🔐 Sign Up (Simulate)</button></div>
+          <div class="input-group"><button id="simulatePaymentBtn" class="btn-outline" style="width: 100%;" disabled>💳 Pay UGX 5,000 Activation</button></div>
+          <div id="activationStatusMsg" style="font-size: 0.9rem;"><span class="status-badge">🟡 Not registered / Pending</span></div>
+        </div>
+      </div>
+      <div class="legal-check"><input type="checkbox" id="termsCheckbox"> <label>☑ I Agree to Terms & Conditions (Anti-fraud, payout limits, account suspension rights)</label></div>
+    </div>
+  </div>
+
+  <!-- Upgrade to Premium preview -->
+  <div class="hero">
+    <div class="card-solid" style="padding: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+      <div><i class="fas fa-crown" style="color: var(--accent);"></i> <strong>Standard Account</strong><br>10 videos/day • UGX 100/video • UGX 150/share bonus</div>
+      <div><i class="fas fa-gem"></i> <strong>Premium Account</strong><br>25 videos/day • UGX 700 premium rewards • Priority withdrawal<br><span style="font-size:0.8rem;">Upgrade fee: UGX 15,000 (admin approval)</span></div>
+      <button class="btn-outline" id="upgradeDemoBtn" disabled>⭐ Upgrade (after activation)</button>
+    </div>
+  </div>
+
+  <!-- Dashboard Preview (minimal demo) -->
+  <div class="hero">
+    <div class="card-solid" style="padding: 2rem;">
+      <h3><i class="fas fa-tachometer-alt"></i> Dashboard Preview (Professional View)</h3>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0;">
+        <div class="glass-card" style="padding: 1rem; flex:1;"><small>Available Balance</small><br><strong id="previewBalance">UGX 0</strong></div>
+        <div class="glass-card" style="padding: 1rem; flex:1;"><small>Pending Earnings</small><br><strong>UGX 0</strong></div>
+        <div class="glass-card" style="padding: 1rem; flex:1;"><small>Referral Earnings</small><br><strong>UGX 0</strong></div>
+      </div>
+      <div><strong>Account Type: <span id="accountTypeLabel">⚪ Not Activated</span></strong></div>
+      <hr style="margin: 1rem 0;">
+      <div><i class="fas fa-tasks"></i> <strong>Video Tasks (simulated)</strong></div>
+      <div id="videoTaskList" class="steps-container" style="margin-top: 1rem; justify-content: flex-start;">
+        <!-- dynamic tasks -->
+      </div>
+      <div id="taskMessage" style="margin-top: 1rem;"></div>
+    </div>
+  </div>
+
+  <!-- Withdrawal Simulation & Support -->
+  <div class="hero footer">
+    <div class="card-solid" style="padding: 1.8rem; margin-bottom: 2rem;">
+      <h3><i class="fas fa-money-bill-wave"></i> Withdraw Earnings</h3>
+      <p>Min: UGX 20,000 | Max: UGX 1,000,000</p>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <input type="number" id="withdrawAmount" placeholder="Amount (UGX)" style="width: 200px;">
+        <button id="requestWithdrawBtn" class="btn-primary" disabled>Request Withdrawal</button>
+      </div>
+      <div id="withdrawMsg" style="margin-top: 0.8rem; color: var(--accent);"></div>
+      <div class="support-links">
+        <div><i class="fas fa-headset"></i> Customer Care: MTN +256782868221 | Airtel +256749171110</div>
+        <div><i class="fas fa-envelope"></i> invexa@support.com</div>
+      </div>
+    </div>
+    <div style="text-align: center; padding: 2rem 0; font-size:0.8rem; border-top: 1px solid var(--card-border);">
+      <p>© INVEXA — Complete Tasks. Earn Rewards. | Your Digital Reward Network</p>
+      <p style="color: var(--text-secondary);">Activation fee protects platform integrity. Admin manually approves all accounts after payment verification.</p>
+    </div>
+  </div>
+</main>
+
+<script>
+  // ---------- STATE MANAGEMENT (demo simulation with admin-like behaviour) ----------
+  // This mimics user signup -> pending activation -> admin approval unlocks features
+  let demoState = {
+    isRegistered: false,
+    isActivated: false,
+    accountType: 'standard', // standard or premium (only admin can upgrade)
+    balance: 0,
+    pendingEarnings: 0,
+    referralEarnings: 0,
+    tasksCompletedToday: 0,
+    username: '',
+    mobile: ''
+  };
+
+  // DOM elements
+  const themeToggle = document.getElementById('themeToggleBtn');
+  const simulateSignup = document.getElementById('simulateSignupBtn');
+  const paymentBtn = document.getElementById('simulatePaymentBtn');
+  const activationMsgSpan = document.getElementById('activationStatusMsg');
+  const previewBalanceSpan = document.getElementById('previewBalance');
+  const accountTypeSpan = document.getElementById('accountTypeLabel');
+  const videoTaskContainer = document.getElementById('videoTaskList');
+  const taskMessageDiv = document.getElementById('taskMessage');
+  const withdrawBtn = document.getElementById('requestWithdrawBtn');
+  const withdrawAmountInput = document.getElementById('withdrawAmount');
+  const withdrawMsgDiv = document.getElementById('withdrawMsg');
+  const upgradeDemoBtn = document.getElementById('upgradeDemoBtn');
+
+  // Helper to update UI after state change
+  function updateDashboardUI() {
+    if (!demoState.isActivated) {
+      previewBalanceSpan.innerText = `UGX ${demoState.balance}`;
+      accountTypeSpan.innerText = '🔒 Not Activated (Pay UGX 5,000)';
+      videoTaskContainer.innerHTML = `<div class="step-card">🔒 Complete registration & activation to unlock video tasks</div>`;
+      withdrawBtn.disabled = true;
+      if(upgradeDemoBtn) upgradeDemoBtn.disabled = true;
+      return;
+    }
+    // Activated view
+    withdrawBtn.disabled = false;
+    if(upgradeDemoBtn && demoState.accountType !== 'premium') upgradeDemoBtn.disabled = false;
+    else if(upgradeDemoBtn && demoState.accountType === 'premium') upgradeDemoBtn.disabled = true;
+    
+    previewBalanceSpan.innerText = `UGX ${demoState.balance}`;
+    const accountDisplay = demoState.accountType === 'standard' ? '📘 STANDARD ACCOUNT' : '💎 PREMIUM ACCOUNT';
+    accountTypeSpan.innerText = accountDisplay;
+    
+    // Generate video tasks based on account type
+    const dailyLimit = demoState.accountType === 'standard' ? 10 : 25;
+    const rewardPerVideo = demoState.accountType === 'standard' ? 100 : 700;
+    const completedToday = demoState.tasksCompletedToday;
+    const remaining = dailyLimit - completedToday;
+    
+    if (remaining <= 0) {
+      videoTaskContainer.innerHTML = `<div class="card-solid" style="padding: 1rem;">✅ You've completed all ${dailyLimit} tasks today. Come back tomorrow!</div>`;
+      return;
+    }
+    
+    let tasksHtml = '';
+    for(let i = 0; i < Math.min(remaining, 3); i++) { // show max 3 example tasks
+      tasksHtml += `
+        <div class="step-card" style="text-align:left; width:auto; min-width:180px;">
+          <i class="fas fa-play-circle" style="color: var(--cyan);"></i> Video Task ${i+1}<br>
+          <small>⏱️ 5 mins • Reward UGX ${rewardPerVideo}</small>
+          <div style="margin-top: 8px;"><button class="btn-outline watchTaskBtn" data-reward="${rewardPerVideo}" style="padding: 0.3rem 1rem;">Watch Now</button></div>
+        </div>
+      `;
+    }
+    videoTaskContainer.innerHTML = tasksHtml;
+    // attach watch event listeners
+    document.querySelectorAll('.watchTaskBtn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if(!demoState.isActivated) return;
+        const reward = parseInt(btn.getAttribute('data-reward'));
+        const limit = demoState.accountType === 'standard' ? 10 : 25;
+        if(demoState.tasksCompletedToday >= limit) {
+          taskMessageDiv.innerText = `⚠️ Daily task limit reached (${limit}/day).`;
+          return;
+        }
+        demoState.tasksCompletedToday++;
+        demoState.balance += reward;
+        updateDashboardUI();
+        taskMessageDiv.innerHTML = `✅ +UGX ${reward} credited! You have completed ${demoState.tasksCompletedToday}/${limit} tasks today.`;
+        setTimeout(() => { if(taskMessageDiv) taskMessageDiv.innerHTML = ''; }, 3000);
+      });
+    });
+  }
+  
+  // signup simulation
+  function simulateRegistration() {
+    const username = document.getElementById('demoUsername').value.trim();
+    const mobile = document.getElementById('demoMobile').value.trim();
+    const pwd = document.getElementById('demoPass').value;
+    const confirm = document.getElementById('demoConfirm').value;
+    const terms = document.getElementById('termsCheckbox').checked;
+    
+    if(!username || !mobile || !pwd || !confirm) {
+      alert('Please fill all fields');
+      return false;
+    }
+    if(pwd !== confirm) {
+      alert('Passwords do not match');
+      return false;
+    }
+    if(!terms) {
+      alert('You must agree to Terms & Conditions');
+      return false;
+    }
+    if(mobile.length < 9) {
+      alert('Enter valid mobile number');
+      return false;
+    }
+    // Simulate creation
+    demoState.isRegistered = true;
+    demoState.isActivated = false;
+    demoState.balance = 0;
+    demoState.tasksCompletedToday = 0;
+    demoState.accountType = 'standard';
+    demoState.username = username;
+    demoState.mobile = mobile;
+    activationMsgSpan.innerHTML = `<span class="status-badge">🟡 Pending Activation — After payment UGX 5,000 to Airtel Merchant 7100430, admin will approve.</span>`;
+    paymentBtn.disabled = false;
+    document.getElementById('simulatePaymentBtn').innerText = '💳 Pay UGX 5,000 Activation (Simulate Payment)';
+    alert(`Demo signup successful! You're now pending activation. Please pay UGX 5,000 to Airtel Merchant 7100430. (In demo, click "Pay Activation" to simulate admin approval)`);
+    updateDashboardUI();
+    return true;
+  }
+  
+  // Simulate payment and then admin approval (manual activation)
+  function simulatePaymentAndActivation() {
+    if(!demoState.isRegistered) {
+      alert('Please sign up first');
+      return;
+    }
+    if(demoState.isActivated) {
+      alert('Account already activated!');
+      return;
+    }
+    // mimic payment confirmation and admin approval
+    // In real system: user pays, admin gets notification, clicks approve
+    const confirmApproval = confirm(`✅ Admin notification: User ${demoState.mobile} paid UGX 5,000. Approve activation?`);
+    if(confirmApproval) {
+      demoState.isActivated = true;
+      demoState.balance = 0; // initial 0 after activation (tasks will add)
+      demoState.tasksCompletedToday = 0;
+      activationMsgSpan.innerHTML = `<span class="status-badge" style="background:#16a34a20; color:#16a34a;">✅ Activated! You now have full access.</span>`;
+      paymentBtn.disabled = true;
+      updateDashboardUI();
+      alert('Account activated! You can now complete tasks and earn.');
+    } else {
+      alert('Activation pending (admin declined simulation)');
+    }
+  }
+  
+  // Withdrawal request (notification to admin)
+  function requestWithdrawal() {
+    if(!demoState.isActivated) {
+      alert('Account not activated');
+      return;
+    }
+    let amount = parseInt(withdrawAmountInput.value);
+    if(isNaN(amount)) amount = 0;
+    if(amount < 20000) {
+      withdrawMsgDiv.innerText = '❌ Minimum withdrawal is UGX 20,000';
+      return;
+    }
+    if(amount > 1000000) {
+      withdrawMsgDiv.innerText = '❌ Maximum withdrawal is UGX 1,000,000';
+      return;
+    }
+    if(amount > demoState.balance) {
+      withdrawMsgDiv.innerText = '❌ Insufficient balance';
+      return;
+    }
+    // Admin notification simulation
+    const confirmWithdraw = confirm(`🔔 ADMIN NOTIFICATION: User ${demoState.username} (${demoState.mobile}) requested UGX ${amount} withdrawal to ${demoState.mobile}. Approve payout? (Demo)`);
+    if(confirmWithdraw) {
+      demoState.balance -= amount;
+      updateDashboardUI();
+      withdrawMsgDiv.innerText = `✅ Withdrawal of UGX ${amount} approved! Money sent to ${demoState.mobile}.`;
+      setTimeout(() => withdrawMsgDiv.innerText = '', 4000);
+    } else {
+      withdrawMsgDiv.innerText = '⏸️ Withdrawal request rejected by admin (simulation).';
+    }
+  }
+  
+  // Premium Upgrade simulation
+  function upgradeToPremium() {
+    if(!demoState.isActivated) {
+      alert('Activate account first');
+      return;
+    }
+    if(demoState.accountType === 'premium') {
+      alert('Already premium');
+      return;
+    }
+    const confirmUpgrade = confirm(`Admin approval required: Upgrade to PREMIUM for UGX 15,000. Simulate payment & admin approval?`);
+    if(confirmUpgrade) {
+      // check if user can pay 15k from balance? for simplicity we treat as separate upgrade payment; but demo shows after admin approval they become premium.
+      demoState.accountType = 'premium';
+      updateDashboardUI();
+      alert('Congratulations! Account upgraded to PREMIUM (25 videos/day, higher rewards).');
+      if(upgradeDemoBtn) upgradeDemoBtn.disabled = true;
+    } else {
+      alert('Upgrade declined');
+    }
+  }
+  
+  // Theme toggle
+  function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if(savedTheme === 'dark') {
+      document.body.classList.add('dark');
+      document.getElementById('themeIcon').className = 'fas fa-sun';
+    } else {
+      document.body.classList.remove('dark');
+      document.getElementById('themeIcon').className = 'fas fa-moon';
+    }
+  }
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    const isDark = document.body.classList.contains('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    const icon = document.getElementById('themeIcon');
+    if(isDark) icon.className = 'fas fa-sun';
+    else icon.className = 'fas fa-moon';
+  });
+  
+  // Event Listeners & scroll to how it works
+  document.getElementById('learnHowBtn')?.addEventListener('click', () => {
+    document.getElementById('howItWorks')?.scrollIntoView({behavior: 'smooth'});
+  });
+  document.getElementById('heroRegBtn')?.addEventListener('click', () => {
+    document.querySelector('.reg-preview')?.scrollIntoView({behavior: 'smooth'});
+  });
+  document.getElementById('registerMockBtn')?.addEventListener('click', () => {
+    document.querySelector('.reg-preview')?.scrollIntoView({behavior: 'smooth'});
+  });
+  document.getElementById('loginMockBtn')?.addEventListener('click', () => {
+    alert('Demo login: Only admin can manage; use registration flow to simulate.');
+  });
+  simulateSignup.addEventListener('click', simulateRegistration);
+  paymentBtn.addEventListener('click', simulatePaymentAndActivation);
+  withdrawBtn.addEventListener('click', requestWithdrawal);
+  if(upgradeDemoBtn) upgradeDemoBtn.addEventListener('click', upgradeToPremium);
+  
+  // initial UI
+  updateDashboardUI();
+  initTheme();
+  
+  // Additional minor fix: ensure payment btn is disabled if not registered initially
+  if(!demoState.isRegistered) paymentBtn.disabled = true;
+</script>
+</body>
+</html>
